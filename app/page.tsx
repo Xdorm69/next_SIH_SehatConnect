@@ -66,7 +66,7 @@ const HeroSection = () => {
             Bringing Health <br /> Closer To You
           </h1>
           <p className="desc mt-4 text-2xl w-1/2">
-            Access quality healthcare and products with ease. We're here to
+            Access quality healthcare and products with ease. We&apos;re here to
             support rural families every step of the way.
           </p>
 

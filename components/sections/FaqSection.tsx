@@ -65,7 +65,7 @@ export function FaqSection() {
                 </CardTitle>
                 <CardDescription className="text-gray-600">
                   For urgent care, use our emergency contact or call your local
-                  clinic. We'll connect you to immediate medical support.
+                  clinic. We&apos;ll connect you to immediate medical support.
                 </CardDescription>
               </CardHeader>
             </Card>
