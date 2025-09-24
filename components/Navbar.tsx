@@ -13,7 +13,7 @@ import {
 import { ChevronDown } from "lucide-react";
 
 const NavLinks = [
-  { title: "Services", drop: true, additionals: ["All", "Specialties"] },
+  { title: "Services", drop: true, additionals: ["Shop", "Appointment"] },
   { title: "About", href: "/about" },
   { title: "Blog", href: "/blog" },
   { title: "Support", drop: true, additionals: ["FAQ", "Contact"] },
@@ -75,11 +75,18 @@ const NavLinksRender = ({ text }: { text: "light" | "primary" }) => {
               )}
             >
               {item.title}
-              <ChevronDown className={cn("size-4 text-muted-foreground -ml-1", text === "light" && "text-white/80")} />
+              <ChevronDown
+                className={cn(
+                  "size-4 text-muted-foreground -ml-1",
+                  text === "light" && "text-white/80"
+                )}
+              />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {item.additionals?.map((sub, i) => (
-                <DropdownMenuItem key={i}>{sub}</DropdownMenuItem>
+                <Link key={i} href={`/${sub.toLocaleLowerCase()}`}>
+                  <DropdownMenuItem>{sub}</DropdownMenuItem>
+                </Link>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
