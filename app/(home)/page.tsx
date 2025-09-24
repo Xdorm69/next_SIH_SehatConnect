@@ -312,12 +312,12 @@ const TipsSection = () => {
 
 const WellnessSection = () => {
   return (
-    <section className="py-18 h-[120vh] md:min-h-screen  w-full relative">
+    <section className="py-18 h-[120vh] w-screen overflow-hidden md:min-h-screen relative">
       <MaxWidthWrapper>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="relative z-20">
             {/* TEXT  */}
-            <div className="text-center relative z-40 backdrop-blur-sm md:backdrop-blur-none">
+            <div className="text-center relative z-40 backdrop-blur-sm rounded p-2 md:backdrop-blur-none">
               <h1 className="heading text-6xl">
                 Begin Your Path <br />
                 To Wellness{" "}
