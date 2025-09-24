@@ -96,7 +96,7 @@ const LoginPage = () => {
               <Button className="w-full">Login</Button>
 
               <Link href={"/signup"} className="text-sm text-primary block">
-                Don't have an account?
+                Don&apos;t have an account?
               </Link>
             </form>
           </Form>
