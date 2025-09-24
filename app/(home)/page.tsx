@@ -312,7 +312,7 @@ const TipsSection = () => {
 
 const WellnessSection = () => {
   return (
-    <section className="py-18 h-[120vh] w-screen overflow-hidden md:min-h-screen relative">
+    <section className="py-18 h-[120vh] max-w-screen overflow-hidden md:min-h-screen relative">
       <MaxWidthWrapper>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="relative z-20">
