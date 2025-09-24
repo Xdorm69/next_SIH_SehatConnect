@@ -1,3 +1,4 @@
+
 import React from "react";
 import MaxWidthWrapper from "./Wrappers/MaxWidthWrapper";
 import Logo from "./Logo";
@@ -10,7 +11,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const NavLinks = [
   { title: "Services", drop: true, additionals: ["Shop", "Appointment"] },
@@ -32,16 +34,21 @@ const Navbar = ({ text = "primary" }: { text: "light" | "primary" }) => {
             )}
           />
 
-          {/* LINKS */}
-          <div className="flex font-sans">
+          {/* DESKTOP LINKS */}
+          <div className="hidden md:flex font-sans">
             <NavLinksRender text={text} />
           </div>
 
-          {/* AUTH */}
-          <div className="flex gap-4">
+          {/* AUTH (Desktop only) */}
+          <div className="hidden md:flex gap-4">
             <Link href={"/login"}>
               <Button className={"text-background"}>Login</Button>
             </Link>
+          </div>
+
+          {/* MOBILE MENU */}
+          <div className="md:hidden">
+            <MobileNav text={text} />
           </div>
         </div>
       </MaxWidthWrapper>
@@ -84,7 +91,7 @@ const NavLinksRender = ({ text }: { text: "light" | "primary" }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {item.additionals?.map((sub, i) => (
-                <Link key={i} href={`/${sub.toLocaleLowerCase()}`}>
+                <Link key={i} href={`/${sub.toLowerCase()}`}>
                   <DropdownMenuItem>{sub}</DropdownMenuItem>
                 </Link>
               ))}
@@ -97,6 +104,53 @@ const NavLinksRender = ({ text }: { text: "light" | "primary" }) => {
         )
       )}
     </>
+  );
+};
+
+const MobileNav = ({ text }: { text: "light" | "primary" }) => {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Menu className="h-6 w-6" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="right" className="p-6">
+        <div className="flex flex-col gap-6">
+          {NavLinks.map((item, id) =>
+            item.href ? (
+              <Link
+                key={id}
+                href={item.href}
+                className="text-lg font-medium hover:underline"
+              >
+                {item.title}
+              </Link>
+            ) : (
+              <div key={id}>
+                <p className="text-lg font-semibold">{item.title}</p>
+                <div className="ml-4 mt-2 flex flex-col gap-2">
+                  {item.additionals?.map((sub, i) => (
+                    <Link
+                      key={i}
+                      href={`/${sub.toLowerCase()}`}
+                      className="text-base text-muted-foreground hover:underline"
+                    >
+                      {sub}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )
+          )}
+
+          {/* AUTH BUTTON (Mobile) */}
+          <Link href={"/login"}>
+            <Button className="w-full">Login</Button>
+          </Link>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 };
 

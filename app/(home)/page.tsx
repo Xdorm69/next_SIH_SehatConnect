@@ -60,7 +60,7 @@ const HeroValues = () => {
 
 const HeroSection = () => {
   return (
-    <section className="mt-14 py-18">
+    <section className="mt-8 md:mt-14 py-18">
       <MaxWidthWrapper>
         <div>
           <h1 className="heading text-center sm:text-left sm:text-5xl md:text-6xl sm:leading-16">

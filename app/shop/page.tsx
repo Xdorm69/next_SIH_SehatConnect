@@ -108,11 +108,11 @@ const ShopPage = () => {
   ];
 
   return (
-    <section className="mt-14 py-18 min-h-screen">
+    <section className="mt-8 md:mt-14 py-18 min-h-screen">
       <MaxWidthWrapper>
         <div>
           <h1 className="heading">Pharmacy 😷</h1>
-          <p className="desc w-1/2">
+          <p className="desc md:w-1/2">
             Explore our wide range of essential health products. Simple,
             reliable solutions for your family.
           </p>
@@ -121,7 +121,7 @@ const ShopPage = () => {
         <SelectFilters filterStrings={filtersStrings} className="mt-4" />
         <SearchFilters search={search} setSearch={setSearch} className="mt-4" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 space-x-4 space-y-8 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 space-y-8 mt-12">
           {ProductsData.map((item, id) => (
             <ProductCard key={id} data={item} />
           ))}
@@ -135,7 +135,7 @@ const ProductCard = ({ data }: { data: productCardType }) => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col h-fit shadow rounded overflow-hidden">
+    <div className="flex flex-col h-fit w-full shadow rounded overflow-hidden">
       <div
         onClick={() => router.push(`/shop/${data.id}`)}
         className={cn("w-full h-[180px] bg-amber-200")}

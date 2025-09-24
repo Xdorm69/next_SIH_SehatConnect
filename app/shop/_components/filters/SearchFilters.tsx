@@ -27,7 +27,7 @@ const SearchFilters = ({search, setSearch, filters, className}: SearchFiltersPro
     <div className={className}>
       <div className='flex justify-between items-center'> 
         <Input
-        className='w-1/3'
+        className='w-full md:w-1/3'
           value={localSearch}
           onChange={(e) => setLocalSearch(e.target.value)}
           placeholder="Search..."
