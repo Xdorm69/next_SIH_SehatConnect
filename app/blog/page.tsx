@@ -20,16 +20,16 @@ export default BlogPage;
 
 const BlogSearch = ({placeholder, btnText, className}: {placeholder: string, btnText: string, className?: string}) => {
   return (
-    <div className={cn("bg-zinc-300 w-1/3 mt-12 flex items-center justify-between rounded-full pl-4 pr-1 py-1 shadow", className)}>
+    <div className={cn("bg-zinc-300 w-fit mt-12 flex items-center justify-between rounded-full pl-4 pr-1 py-1 shadow", className)}>
       <input
         className="focus:outline-none placeholder:text-muted-foreground"
         type="text"
         placeholder={placeholder}
       />
-      <Button className="rounded-full px-0 pl-4">
+      <Button className="rounded-full p-1 pl-4 ">
         <p>{btnText}</p>
-        <div className="rounded-full p-2 bg-zinc-800 text-white">
-          <ChevronRight />
+        <div className="rounded-full p-1 flex items-center justify-center bg-zinc-800 text-white">
+          <ChevronRight className="size-5" />
         </div>
       </Button>
     </div>
@@ -43,8 +43,8 @@ const BlogHero = () => {
         <Image
           src={"/blog/hero.jpg"}
           alt="blog-bg"
-          width={1600}
-          height={1600}
+          width={800}
+          height={600}
           priority
           className="w-full h-full object-cover"
         />
@@ -52,7 +52,7 @@ const BlogHero = () => {
 
       <MaxWidthWrapper>
         <div className="flex justify-center flex-col h-screen relative z-10">
-          <h1 className="heading font-bold text-6xl text-white leading-18">
+          <h1 className="heading font-bold md:text-6xl text-white md:leading-18">
             Utilization of technology to
             <br />
             Support Enviornmentally <br />
@@ -186,7 +186,7 @@ const BlogPopular = () => {
       <MaxWidthWrapper>
         <h1 className="heading mb-8">Popular Articles</h1>
 
-        <div className="grid grid-cols-4 grid-rows-[150px_150px_150px] gap-4">
+        <div className="grid lg:grid-cols-4 grid-rows-[150px_150px_150px] gap-4">
           {articles.map((article, i) => (
             <ArticleCard
               key={i}
@@ -249,7 +249,7 @@ const BlogLatest = () => {
       <MaxWidthWrapper>
         <div>
           <h1 className="heading mb-8">Latest Articles</h1>
-          <div className="grid grid-cols-3 grid-rows-[400px_400px] gap-8">
+          <div className="grid  md:grid-cols-2 lg:grid-cols-3 grid-rows-[400px_400px] gap-8">
             {data.map((item, i) => {
               return (
                 <ArticleCard
@@ -270,8 +270,8 @@ const BlogLatest = () => {
               <ChevronLeft className="size-5" /> <p>Previous</p>
             </Button>
             <div>
-              {Array.from({length: 6}).map((_, id) => {
-                return id < 5 ? (
+              {Array.from({length: 3}).map((_, id) => {
+                return id < 2 ? (
                   <Button key={id} className="rounded-full" variant={'ghost'}>
                     {id + 1}
                   </Button>
@@ -295,7 +295,7 @@ const BlogLatest = () => {
 
 const BlogCTA = () => {
   return (
-    <section className="h-[50vh] relative w-full">
+    <section className="h-[60vh] relative w-full">
       {/* IMAGE  */}
       <div className="absolute top-0 left-0 w-full h-full">
         <Image
@@ -308,7 +308,7 @@ const BlogCTA = () => {
       </div>
       <div className="flex items-center justify-center h-full w-full relative z-20 text-center text-white">
         <div className="w-full">
-          <h1 className="heading text-6xl">
+          <h1 className="heading sm:text-5xl md:text-6xl">
             Get Involved In The <br />
             Agricultural Uprising
           </h1>
