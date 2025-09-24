@@ -7,7 +7,7 @@ import { Youtube, Facebook, Twitter } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="w-full bg-primary text-white py-18">
+    <footer className="w-full py-18">
       <MaxWidthWrapper>
         <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Logo Section */}

@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 
-
 const NavLinks = [
   { title: "Services", drop: true, additionals: ["All", "Specialties"] },
   { title: "About", href: "/about" },
@@ -20,23 +19,28 @@ const NavLinks = [
   { title: "Support", drop: true, additionals: ["FAQ", "Contact"] },
 ];
 
-const Navbar = () => {
+const Navbar = ({ text = "primary" }: { text: "light" | "primary" }) => {
   return (
     <nav className="top-0 bg-background/20 left-0 w-full backdrop-blur-2xl fixed z-50 py-4">
       <MaxWidthWrapper>
         <div className="flex items-center justify-between">
           {/* LEFT */}
-          <Logo className="text-primary" />
+          <Logo
+            className={cn(
+              "text-primary",
+              text === "light" && "text-background"
+            )}
+          />
 
           {/* LINKS */}
           <div className="flex font-sans">
-            <NavLinksRender />
+            <NavLinksRender text={text} />
           </div>
 
           {/* AUTH */}
           <div className="flex gap-4">
             <Link href={"/login"}>
-              <Button className={cn("text-background")}>Login</Button>
+              <Button className={"text-background"}>Login</Button>
             </Link>
           </div>
         </div>
@@ -45,7 +49,7 @@ const Navbar = () => {
   );
 };
 
-const NavLinksRender = () => {
+const NavLinksRender = ({ text }: { text: "light" | "primary" }) => {
   return (
     <>
       {NavLinks.map((item, id) =>
@@ -54,7 +58,8 @@ const NavLinksRender = () => {
             key={id}
             className={cn(
               buttonVariants({ variant: "ghost" }),
-              "text-muted-foreground hover:text-black"
+              "text-muted-foreground hover:text-black",
+              text === "light" && "text-white/80"
             )}
             href={item.href}
           >
@@ -65,11 +70,12 @@ const NavLinksRender = () => {
             <DropdownMenuTrigger
               className={cn(
                 buttonVariants({ variant: "ghost" }),
-                "text-muted-foreground hover:text-black"
+                "text-muted-foreground hover:text-black",
+                text === "light" && "text-white/80"
               )}
             >
               {item.title}
-              <ChevronDown className="size-4 text-muted-foreground -ml-1" />
+              <ChevronDown className={cn("size-4 text-muted-foreground -ml-1", text === "light" && "text-white/80")} />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {item.additionals?.map((sub, i) => (
