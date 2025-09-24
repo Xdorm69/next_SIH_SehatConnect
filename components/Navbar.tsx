@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 
+
 const NavLinks = [
   { title: "Services", drop: true, additionals: ["All", "Specialties"] },
   { title: "About", href: "/about" },
@@ -34,7 +35,9 @@ const Navbar = () => {
 
           {/* AUTH */}
           <div className="flex gap-4">
-            <Button className={cn("text-background")}>Login</Button>
+            <Link href={"/login"}>
+              <Button className={cn("text-background")}>Login</Button>
+            </Link>
           </div>
         </div>
       </MaxWidthWrapper>

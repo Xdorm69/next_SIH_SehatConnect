@@ -17,7 +17,7 @@ export function FaqSection() {
             <h1 className="heading text-5xl">
               Get quick answers to your health queries
             </h1>
-            <p className="desc">
+            <p className="desc text-xl">
               Explore common questions about our services, appointments,
               privacy, and emergency support. Find straightforward answers to
               help you access care confidently.
