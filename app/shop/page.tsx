@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import SelectFilters from "./_components/filters/SelectFilters";
 import SearchFilters from "./_components/filters/SearchFilters";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import CartButton from "./_components/CartButton";
 
 type productCardType = {
   id: string;
@@ -121,7 +121,7 @@ const ShopPage = () => {
         <SelectFilters filterStrings={filtersStrings} className="mt-4" />
         <SearchFilters search={search} setSearch={setSearch} className="mt-4" />
 
-        <div className="grid grid-cols-4 space-x-4 space-y-8 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 space-x-4 space-y-8 mt-12">
           {ProductsData.map((item, id) => (
             <ProductCard key={id} data={item} />
           ))}
@@ -133,13 +133,15 @@ const ShopPage = () => {
 
 const ProductCard = ({ data }: { data: productCardType }) => {
   const router = useRouter();
-  const colors = ["bg-red-200", "bg-green-200", "bg-blue-200", "bg-yellow-200", "bg-purple-200", "bg-amber-200"];
+
   return (
-    <div
-      onClick={() => router.push(`/shop/${data.id}`)}
-      className="flex flex-col h-fit shadow rounded overflow-hidden"
-    >
-      <div className={cn("w-full h-[180px]", colors[Math.floor(Math.random() * colors.length)])}>{data.img}</div>
+    <div className="flex flex-col h-fit shadow rounded overflow-hidden">
+      <div
+        onClick={() => router.push(`/shop/${data.id}`)}
+        className={cn("w-full h-[180px] bg-amber-200")}
+      >
+        {data.img}
+      </div>
 
       <div className="w-full h-1/3 p-4">
         <h6 className="border-1 rounded-full px-2 py-1 border-emerald-300 hover:bg-emerald-600 transition-colors cursor-pointer hover:text-white w-fit text-xs mb-4">
@@ -155,9 +157,7 @@ const ProductCard = ({ data }: { data: productCardType }) => {
         {/* BUY / CART  */}
         <div className="flex gap-2 mt-4">
           <Button>Buy Now</Button>
-          <Button variant={"outline"}>
-            <ShoppingCart />
-          </Button>
+          <CartButton />
         </div>
       </div>
     </div>
