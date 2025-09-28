@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Blogs {
+  id          String   @id @default(uuid())
+  img         String
+  title       String
+  description String?
+  popular     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   String
+  clicks      Int      @default(0)
+}
+
+model User {
+  id            String         @id @default(cuid())
+  username      String         @unique
+  phone         String         @unique
+  email         String         @unique
+  password      String?
+  provider      String         @default("credentials")
+  role          UserRoles      @default(USER)
+  createdAt     DateTime       @default(now())
+  doctorProfile DoctorProfile?
+  patientNotes  Notes[]        @relation("patientNotes")
+  notesCreated  Notes[]        @relation("createdNotes")
+  vendorProfile VendorProfile?
+  cart          Cart?          // only 1 active cart
+  orders        Order[]        // history of purchases
+}
+
+model Notes {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  createdById String
+  patientId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  patient     User     @relation("patientNotes", fields: [patientId], references: [id])
+  createdBy   User     @relation("createdNotes", fields: [createdById], references: [id])
+}
+
+model DoctorProfile {
+  id             String  @id @default(cuid())
+  userId         String  @unique
+  specialization String
+  licenseNumber  String
+  hospitalName   String?
+  experience     Int?
+  user           User    @relation(fields: [userId], references: [id])
+}
+
+model VendorProfile {
+  id           String    @id @default(cuid())
+  userId       String    @unique
+  businessName String
+  gstNumber    String?
+  address      String?
+  products     Product[]
+  user         User      @relation(fields: [userId], references: [id])
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  vendorId    String
+  vendor      VendorProfile @relation(fields: [vendorId], references: [id])
+  name        String
+  description String?
+  price       Float
+  stock       Int           @default(0)
+  imageUrl    String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+}
+
+enum UserRoles {
+  USER
+  VENDOR
+  DOCTOR
+  ADMIN
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  price     Float    // snapshot of product price at the time of adding to cart
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  items     OrderItem[]
+  status    String      @default("PENDING") // e.g., PENDING, SHIPPED, COMPLETED
+  total     Float
+  createdAt DateTime    @default(now())
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  price     Float    // snapshot of product price at purchase time
+}

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import AuthSessionProvider from "@/components/providers/AuthSessionProvider";
+import TanstackProvider from "@/components/providers/TanstackProvider";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -65,7 +67,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${merriweather.variable} antialiased`}
       >
-        {children}
+        <TanstackProvider>
+          <AuthSessionProvider>{children}</AuthSessionProvider>
+        </TanstackProvider>
         <Toaster />
       </body>
     </html>

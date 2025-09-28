@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        hostname: "jsonplaceholder.typicode.com",
+      },
+      {
+        hostname: "plus.unsplash.com",
+      },
     ],
   },
 };

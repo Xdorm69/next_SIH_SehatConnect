@@ -4,7 +4,9 @@ import MaxWidthWrapper from "@/components/Wrappers/MaxWidthWrapper";
 import { cn } from "@/lib/utils";
 import { BriefcaseMedical, Clock, Repeat } from "lucide-react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import React from "react";
+import JoinBtn from "./_components/JoinBtn";
 
 const page = () => {
   return (
@@ -91,7 +93,7 @@ const HeroSection = () => {
 
           {/* CTA BUTTONS  */}
           <div className="flex gap-4 mt-12 flex-wrap items-center justify-center sm:justify-start">
-            <Button>Join Us</Button>
+            <JoinBtn />
             <Button variant={"outline"}>Discover More</Button>
           </div>
 

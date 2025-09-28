@@ -1,4 +1,3 @@
-
 import React from "react";
 import MaxWidthWrapper from "./Wrappers/MaxWidthWrapper";
 import Logo from "./Logo";
@@ -13,6 +12,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import NavbarAuth from "./NavbarAuth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { UserRoles } from "@prisma/client";
+import { avatarUrl } from "@/lib/helpers/profileUrl";
 
 const NavLinks = [
   { title: "Services", drop: true, additionals: ["Shop", "Appointment"] },
@@ -41,9 +45,7 @@ const Navbar = ({ text = "primary" }: { text: "light" | "primary" }) => {
 
           {/* AUTH (Desktop only) */}
           <div className="hidden md:flex gap-4">
-            <Link href={"/login"}>
-              <Button className={"text-background"}>Login</Button>
-            </Link>
+            <NavbarAuth />
           </div>
 
           {/* MOBILE MENU */}
@@ -107,7 +109,8 @@ const NavLinksRender = ({ text }: { text: "light" | "primary" }) => {
   );
 };
 
-const MobileNav = ({ text }: { text: "light" | "primary" }) => {
+const MobileNav = async ({ text }: { text: "light" | "primary" }) => {
+  const session = await getServerSession(authOptions);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -145,9 +148,15 @@ const MobileNav = ({ text }: { text: "light" | "primary" }) => {
           )}
 
           {/* AUTH BUTTON (Mobile) */}
-          <Link href={"/login"}>
-            <Button className="w-full">Login</Button>
-          </Link>
+          {session ? (
+            <Link href={avatarUrl(session.user.role as UserRoles)}>
+              <Button className="w-full">Profile</Button>
+            </Link>
+          ) : (
+            <Link href={"/login"}>
+              <Button className="w-full">Login</Button>
+            </Link>
+          )}
         </div>
       </SheetContent>
     </Sheet>

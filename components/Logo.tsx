@@ -7,9 +7,9 @@ const Logo = ({className}: {className?: string}) => {
     <Link className={className} href={"/"}>
       <div className="flex items-center">
         {/* ICON  */}
-        <BicepsFlexed className="w-5 h-5 font-bold" />
+        <BicepsFlexed className="font-bold" />
         {/* TEXT  */}
-        <h1 className="font-sans ml-1 text-xl font-semibold">SehatCon</h1>
+        <h1 className="font-sans ml-1 font-semibold">SehatCon</h1>
       </div>
     </Link>
   );

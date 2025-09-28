@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ShoppingCart } from "lucide-react";
+import { Product } from "@prisma/client";
 
-const CartButton = () => {
+const CartButton = ({product}: {product: Product}) => {
   const router = useRouter();
 
   return (
