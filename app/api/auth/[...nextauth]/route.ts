@@ -123,7 +123,7 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as UserRoles;
         session.user.username = token.username as string;
         // FIX: Add phone to session
-        (session.user as any).phone = token.phone as string;
+        session.user.phone = token.phone as string;
       }
       return session;
     },

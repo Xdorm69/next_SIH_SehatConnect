@@ -30,7 +30,7 @@ export async function updateBlog(id: string, data: z.infer<typeof blogSchema>) {
       },
     });
     return updated;
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
     throw new Error("Failed to update blog");
   }

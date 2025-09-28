@@ -6,7 +6,7 @@ import { Product } from "@prisma/client";
 import { ProductCols } from "./ProductCols";
 import { getProducts } from "../_hooks/getProducts";
 import { DataTable } from "@/components/DataTable";
-import { productFns } from "../_fns/productFns";
+import { ProductFns } from "../_fns/productFns";
 
 const ProductTable = ({
   initialData,
@@ -33,7 +33,7 @@ const ProductTable = ({
 
   const data = res?.products;
 
-  const { seed } = productFns({ setLoading, vendorId: vendorId as string });
+  const { seed } = ProductFns({ setLoading, vendorId: vendorId as string });
 
   return (
     <div className="mt-6">

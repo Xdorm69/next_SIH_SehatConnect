@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { seedMedicines } from "@/actions/products/seed/seedMedicines";
 
-export function productFns({
+export function ProductFns({
   setLoading,
   vendorId,
 }: {

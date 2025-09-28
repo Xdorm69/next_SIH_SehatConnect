@@ -15,20 +15,21 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
 
 export interface ColumnDef<T> {
-  accessor: keyof T | string;
-  header: React.ReactNode; // JSX allowed
+  accessor: keyof T;
+  header: React.ReactNode;
   render?: (row: T) => React.ReactNode;
-  filter?: (row: T, value: any) => boolean; // optional custom filter
+  filter?: (row: T, value: unknown) => boolean;
+  filterValue?: unknown; // so column-specific filters can work
 }
 
-interface DataTableProps<T> {
+interface DataTableProps<T extends { id: string | number }> {
   columns: ColumnDef<T>[];
   data: T[];
   seed?: () => void;
   onEdit?: (row: T) => void;
   onDeleteMany?: (rows: T[]) => void;
   isLoading?: boolean;
-  pageSize?: number; // items per page
+  pageSize?: number;
 }
 
 export function DataTable<T extends { id: string | number }>({
@@ -46,7 +47,7 @@ export function DataTable<T extends { id: string | number }>({
 
   // Filtered data
   const filteredData = React.useMemo(() => {
-    let tempData = data;
+    let tempData = [...data];
 
     if (search) {
       tempData = tempData.filter((item) =>
@@ -56,36 +57,40 @@ export function DataTable<T extends { id: string | number }>({
       );
     }
 
-    // Column-specific filters (if provided)
-    columns.forEach((col: any) => {
-      if (col.filterValue && col.filter) {
-        tempData = tempData.filter((row) => col.filter(row, col.filterValue));
+    columns.forEach((col) => {
+      if (col.filterValue !== undefined && col.filter) {
+        tempData = tempData.filter((row) => col.filter?.(row, col.filterValue));
       }
     });
 
     return tempData;
   }, [data, search, columns]);
 
-  // Paginated data
+  // Pagination
   const totalPages = Math.ceil(filteredData.length / pageSize);
   const paginatedData = filteredData.slice(
     (page - 1) * pageSize,
     page * pageSize
   );
 
-  // Multi-select functions
+  // Multi-select
   const toggleRow = (id: T["id"]) => {
-    const newSet = new Set(selected);
-    if (newSet.has(id)) newSet.delete(id);
-    else newSet.add(id);
-    setSelected(newSet);
+    setSelected((prev) => {
+      const newSet = new Set(prev);
+      newSet.has(id) ? newSet.delete(id) : newSet.add(id);
+      return newSet;
+    });
   };
 
   const toggleAll = () => {
-    if (selected.size === paginatedData.length) setSelected(new Set());
-    else setSelected(new Set(paginatedData.map((d) => d.id)));
+    if (selected.size === paginatedData.length) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(paginatedData.map((d) => d.id)));
+    }
   };
 
+  const isAllSelected = selected.size === paginatedData.length;
   const isIndeterminate =
     selected.size > 0 && selected.size < paginatedData.length;
 
@@ -98,7 +103,7 @@ export function DataTable<T extends { id: string | number }>({
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            setPage(1); // reset page when searching
+            setPage(1);
           }}
           className="max-w-sm bg-card"
         />
@@ -121,9 +126,10 @@ export function DataTable<T extends { id: string | number }>({
               variant="destructive"
               disabled={selected.size === 0 || isLoading}
               onClick={() => {
-                onDeleteMany(
-                  paginatedData.filter((row) => selected.has(row.id))
+                const rowsToDelete = paginatedData.filter((row) =>
+                  selected.has(row.id)
                 );
+                onDeleteMany(rowsToDelete);
                 setSelected(new Set());
               }}
             >
@@ -143,18 +149,12 @@ export function DataTable<T extends { id: string | number }>({
           <TableRow>
             {onDeleteMany && (
               <TableHead>
-                <Checkbox
-                  checked={selected.size === paginatedData.length}
-                  onCheckedChange={toggleAll}
-                  className="bg-zinc-300"
-                />
+                <Checkbox checked={isAllSelected} onCheckedChange={toggleAll} />
               </TableHead>
             )}
-
             {columns.map((col) => (
-              <TableHead key={col.accessor.toString()}>{col.header}</TableHead>
+              <TableHead key={String(col.accessor)}>{col.header}</TableHead>
             ))}
-
             {onEdit && <TableHead>Actions</TableHead>}
           </TableRow>
         </TableHeader>
@@ -180,17 +180,16 @@ export function DataTable<T extends { id: string | number }>({
                   <Checkbox
                     checked={selected.has(row.id)}
                     onCheckedChange={() => toggleRow(row.id)}
-                    className="bg-zinc-300"
                   />
                 </TableCell>
               )}
-
               {columns.map((col) => (
-                <TableCell key={col.accessor.toString()}>
-                  {col.render ? col.render(row) : (row as any)[col.accessor]}
+                <TableCell key={String(col.accessor)}>
+                  {col.render
+                    ? col.render(row)
+                    : (row[col.accessor as keyof T] as React.ReactNode)}
                 </TableCell>
               ))}
-
               {onEdit && (
                 <TableCell>
                   <Button
