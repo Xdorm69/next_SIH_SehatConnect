@@ -10,7 +10,8 @@ export async function GET(
   if (!success) return NextResponse.json({ success, message });
 
   try {
-    const vendorId = (await context.params).vendorId;
+    const params = (await context.params);
+    const vendorId = params.vendorId;
     if (!vendorId)
       return NextResponse.json({
         success: false,
